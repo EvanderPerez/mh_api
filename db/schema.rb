@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_05_05_215730) do
+ActiveRecord::Schema.define(version: 2023_05_16_164518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,19 @@ ActiveRecord::Schema.define(version: 2023_05_05_215730) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "locations", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_locations_on_name"
+  end
+
+  create_table "service_orders", force: :cascade do |t|
+    t.bigint "client_id", null: false
+    t.string "details"
+    t.index ["client_id"], name: "index_service_orders_on_client_id"
+  end
+
   create_table "tools", force: :cascade do |t|
     t.string "model", null: false
     t.string "type"
@@ -33,6 +46,10 @@ ActiveRecord::Schema.define(version: 2023_05_05_215730) do
     t.string "location", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "service_orders_id"
+    t.index ["service_orders_id"], name: "index_tools_on_service_orders_id"
   end
 
+  add_foreign_key "service_orders", "clients"
+  add_foreign_key "tools", "service_orders", column: "service_orders_id"
 end
