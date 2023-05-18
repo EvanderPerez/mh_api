@@ -54,7 +54,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-
+gem 'pry-rails', '~> 0.3.8'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
@@ -65,8 +65,12 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do
+  gem 'rspec-rails', '3.8.0'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'pry-byebug'
+  gem 'factory_bot_rails', '4.11.1'
+  gem 'faker', '1.9.1'
 end
 
 group :development do
@@ -79,6 +83,7 @@ group :development do
 end
 
 group :test do
+  gem 'guard-rspec', '4.7.3'
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
