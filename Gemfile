@@ -16,6 +16,15 @@ gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
 
+# Interactors are used to encapsulate your application's business logic.
+# Each interactor represents one thing that your application does.
+# https://github.com/collectiveidea/interactor
+gem 'interactor', '~> 3.0'
+
+# active_model_serializers
+# ActiveModel::Serializers allows you to generate your JSON in an object-oriented and convention-driven manner.
+# @see {https://github.com/rails-api/active_model_serializers}
+gem 'active_model_serializers', '~> 0.10.0'
 
 # zip-zip:
 # Simple adapter to let all your dependencies use RubyZip v1.0.0.
