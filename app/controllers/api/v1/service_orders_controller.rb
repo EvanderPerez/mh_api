@@ -1,6 +1,8 @@
 module Api
   module V1
     class ServiceOrdersController < ApplicationController
+      skip_before_action :verify_authenticity_token
+
       # >> GET >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
       def index
@@ -10,6 +12,12 @@ module Api
       end
 
       # >> POST >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+      def create
+        initialize_render_concern(service_order_create_interactor)
+
+        render_result_serializer
+      end
 
       # >> PATCH/PUT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -23,6 +31,13 @@ module Api
         ServiceOrderInteractor::Index.call(filter_params: filter_params)
       end
 
+      def service_order_create_interactor
+        ServiceOrderInteractor::CreateWithTools.call(
+          service_order_params: create_params,
+          tools_params: tools_params
+        )
+      end
+
       # == Method =================================================================================
 
       # == Params =================================================================================
@@ -31,13 +46,32 @@ module Api
         params.permit(:client_id, :description)
       end
 
+      def create_params
+        params.require(:service_order).permit(
+          :client_id,
+          :details
+        )
+      end
+
+      def tools_params
+        params.require(:service_order).permit(
+          tools_attributes: [
+            :model,
+            :tool_type,
+            :brand,
+            :accesories,
+            :location
+          ]
+        )
+      end
+
       # == Poros ==================================================================================
 
       # == Scope ==================================================================================
 
       # == Serializer =============================================================================
       def serializer_method
-        ServiceOrderSerializer
+        SingleServiceOrderSerializer
       end
     end
   end
