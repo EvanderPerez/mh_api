@@ -4,6 +4,7 @@ module ServiceOrderInteractor
 
     def call
       context.output = index_service_orders
+      context.serializer = ServiceOrderSerializer
     end
 
     private

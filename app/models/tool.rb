@@ -1,3 +1,2 @@
 class Tool < ApplicationRecord
 end
-
