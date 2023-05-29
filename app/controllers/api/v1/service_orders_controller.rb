@@ -11,6 +11,12 @@ module Api
         render_result_serializer
       end
 
+      def show
+        initialize_render_concern(service_order_show_interactor)
+
+        render_result_serializer
+      end
+
       # >> POST >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
       def create
@@ -31,6 +37,10 @@ module Api
         ServiceOrderInteractor::Index.call(filter_params: filter_params)
       end
 
+      def service_order_show_interactor
+        ServiceOrderInteractor::Show.call(id: id)
+      end
+
       def service_order_create_interactor
         ServiceOrderInteractor::CreateWithTools.call(
           service_order_params: create_params,
@@ -44,6 +54,10 @@ module Api
 
       def filter_params
         params.permit(:client_id, :description)
+      end
+
+      def id
+        params.require(:id)
       end
 
       def create_params
