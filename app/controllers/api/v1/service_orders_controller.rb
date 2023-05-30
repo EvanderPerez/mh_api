@@ -27,6 +27,12 @@ module Api
 
       # >> PATCH/PUT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+      def update
+        initialize_render_concern(service_order_update_interactor)
+
+        render_result_serializer
+      end
+
       # >> DELETE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
       private
@@ -43,8 +49,16 @@ module Api
 
       def service_order_create_interactor
         ServiceOrderInteractor::CreateWithTools.call(
-          service_order_params: create_params,
-          tools_params: tools_params
+          service_order_params: service_order_params,
+          tools_params: tools_attributes
+        )
+      end
+
+      def service_order_update_interactor
+        ServiceOrderInteractor::UpdateWithTools.call(
+          service_order_id: id,
+          service_order_params: service_order_params,
+          tools_params: tools_attributes
         )
       end
 
@@ -60,21 +74,23 @@ module Api
         params.require(:id)
       end
 
-      def create_params
+      def service_order_params
         params.require(:service_order).permit(
           :client_id,
           :details
         )
       end
 
-      def tools_params
+      def tools_attributes
         params.require(:service_order).permit(
           tools_attributes: [
+            :id,
             :model,
             :tool_type,
             :brand,
             :accesories,
-            :location
+            :location,
+            :_destroy
           ]
         )
       end

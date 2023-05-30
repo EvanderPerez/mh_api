@@ -38,4 +38,23 @@ RSpec.describe Api::V1::ServiceOrdersController, type: :request do
       expect(response.parsed_body['details']).to eq service_order.details
     end
   end
+
+  describe 'PUT /service_orders/:id' do
+    context 'update just the service_order' do
+      let(:service_order_params) { build(:service_order, client: client) }
+      let(:tools_attributes) { attributes_for(:tool)}
+      let(:params) do
+        {
+          service_order: service_order_params.as_json.merge!(
+            tools_attributes: [tools_attributes]
+          )
+        }
+      end
+
+      it 'should update an existing service order' do
+        put "/api/v1/service_orders/#{service_order.id}", params: params
+        expect(response.parsed_body['details']).to eq service_order_params.details
+      end
+    end
+  end
 end
