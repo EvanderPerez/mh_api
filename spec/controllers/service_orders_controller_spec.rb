@@ -11,7 +11,7 @@ RSpec.describe Api::V1::ServiceOrdersController, type: :request do
 
     it 'should get all service orders' do
       get '/api/v1/service_orders'
-      expect(response.parsed_body.count).to eq 3
+      expect(response.parsed_body['results'].count).to eq 3
     end
   end
 

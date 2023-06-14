@@ -53,6 +53,11 @@ gem 'fast_excel', '~> 0.3.0'
 # @see {https://github.com/rubyzip/rubyzip}
 gem 'rubyzip'
 
+# pagy:
+# Pagination for rails
+# @see {https://github.com/ddnexus/pagy}
+gem 'pagy', '~> 3.5'
+
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks

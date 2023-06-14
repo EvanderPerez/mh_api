@@ -12,7 +12,9 @@ module ServiceOrderInteractor
     delegate :filter_params, to: :context
 
     def index_service_orders
-      ServiceOrder.filter_by(filter_params)
+      ServiceOrder.by_text(filter_params[:text])
+                  .by_status(filter_params[:status])
+                  .by_client(filter_params[:client_id])
     end
   end
 end
