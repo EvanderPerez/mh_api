@@ -1,14 +1,15 @@
 module Api
   module V1
     class ServiceOrdersController < ApplicationController
+      include Pagy::Backend
       skip_before_action :verify_authenticity_token
 
       # >> GET >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
       def index
-        initialize_render_concern(service_order_index_interactor)
+        initialize_render_with_pagination_concern(service_order_index_interactor)
 
-        render_result_serializer
+        render_result_serializer_with_pagination
       end
 
       def show
@@ -67,7 +68,7 @@ module Api
       # == Params =================================================================================
 
       def filter_params
-        params.permit(:client_id, :description)
+        params.permit(:client_id, :text, :status)
       end
 
       def id
